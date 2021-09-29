@@ -80,39 +80,31 @@ int recurseDeCasteljau( int startIndex, int N, float eps, int d, float** GM, flo
 		return 0;
 	}
 
-	printf("Begin deCasljeau: %d\n", j);
 	// On cherche les Gamma et Delta avec DeCasteljau
 	deCasljeau(startIndex, N, d, GM, eps, gamma, delta);
-	printf("End deCasljeau: %d\n", j);
 
 	print_matrix(N, 2, GM);
 
-	printf("Begin insertion delta: %d\n", j);
 	// On insert les Gamma dans GM
-
-	printf("N: %d, startIndex: %d\n", N, startIndex );
 	int tmp_counter = 0;
 	for( int j = startIndex; j < startIndex+N; j++ ){
 		for( int k = 0; k < d; k++ ){
-			GM[j][k] = delta[tmp_counter][k];
+			GM[j][k] = gamma[tmp_counter][k];
 			// printf("delta, %f, GM: %f\n", delta[tmp_counter][k], GM[j][k] );
-			printf("delta: %f\n", delta[tmp_counter][k] );
+			printf("delta: %f\n", gamma[tmp_counter][k] );
 		}
 		tmp_counter++;
 	}
-	printf("End insertion delta: %d\n", j);
 
-	printf("Begin insertion Gamma: %d\n", j);
 	// On insert les Delta dans GM
 	tmp_counter = 0;
 	for( int j = startIndex+N; j < startIndex + 2*N-1; j++ ){
 		for( int k = 0; k < d; k++ ){
-			GM[j][k]=gamma[tmp_counter][k];
-			printf("gamma: %f\n", gamma[tmp_counter][k] );
+			GM[j][k]=delta[tmp_counter][k];
+			printf("gamma: %f\n", delta[tmp_counter][k] );
 		}
 		tmp_counter++;
 	}
-	printf("End insertion Gamma: %d\n", j);
 
 	// On applique la fonction recursivement sur les Delta d'abord
 	recurseDeCasteljau( startIndex+N,  N-1, eps, d, GM, gamma, delta, j+1, jmax);
